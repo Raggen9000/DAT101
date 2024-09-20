@@ -107,15 +107,15 @@ if ("arne"=== "thomas"){
 }else {
     printOut("arne is not equal to thomas");
 }
-if (2===5){
-    printOut("2 is equal to 5: true");
+if ((2===5)===true){
+    printOut("(2===5)===true is true");
 }else{
-    printOut("2 is not equal to 5: false");
+    printOut("(2===5)===true is false");
 }
-if ("abcd">"bcd"){
-    printOut("abcd is greater than bcd: true");
+if (("abcd">"bcd")===false){
+    printOut("(abcd > bcd) === false is true")
 }else {
-    printOut("bcd is greater than abcd: false");
+    printOut("(abcd > bcd)===false is false");
 }
 printOut(newLine);
 
@@ -139,7 +139,7 @@ printOut("--- Part 9 -----------------------------------------------------------
 /* Put your code below here!*/
 
 let r = Math.floor((Math.random() * 360) + 1);
-printOut("this is a randomy generetat number between 1 and 360: "+r.toString());
+printOut("this is a randomy generetat number between 1 and 360:"+r.toString());
 
 printOut(newLine);
 
