@@ -62,8 +62,10 @@ printOut(newLine);
 
 printOut("--- Part 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-const tekst = "There is much between heaven and earth that we do not understand.";
-printOut(tekst.length.toString()+" is the nummber of characters");
+let tekst = "There is much between heaven and earth that we do not understand.";
+
+printOut(tekst.length.toString()+" is the number of characters");
+
 let letter = tekst.charAt(19);
 
 let letter2 = tekst.slice(35, 44);
@@ -79,33 +81,37 @@ printOut("--- Part 7 -----------------------------------------------------------
 /* Put your code below here!*/
 
 if (5 > 3) {
-    printOut("5 is bigger than 3");
+    printOut("5 > 3 is true");
+}else{
+    printOut("5 > 3 is false");
 }
 if (7 >= 7) {
-    printOut("7 is greater or equal to 7");
-};
+    printOut("7 >= 7 is true");
+}else{
+    printOut("7>= is false");
+}
 if ("a" > "b"){
-    printOut("a is bigger than b");
+    printOut("a > b is true");
 }
 else {
-    printOut("b is bigger than a");
+    printOut("a > b is false");
 }
 if ("1">"a"){
-    printOut("1 is bigger than a");
+    printOut("1 > a is true");
 }
 else {
-    printOut("a is bigger than 1");
+    printOut("1 > a is false");
 }
 if ("2500"<"abcd"){
-    printOut("2500 is less than abcd");
+    printOut("2500 < abcd is true");
 }
 else{
-    printOut("2500 is more than abcd");
+    printOut("2500 < abcd is false");
 }
-if ("arne"=== "thomas"){
-    printOut("arne is equal to thomas");
+if ("arne" !== "thomas"){
+    printOut("arne !== thomas is true");
 }else {
-    printOut("arne is not equal to thomas");
+    printOut("arne !== thomas is false");
 }
 if ((2===5)===true){
     printOut("(2===5)===true is true");
