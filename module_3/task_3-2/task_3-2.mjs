@@ -169,7 +169,7 @@ do{
         let tempKar;
         let studentA, studentB;
         //switch
-        switch(studentA){
+        switch(student1Del2.nr, student2Del2.nr){
             case 1:
                 studentA = student1Del2;
                 studentB = student2Del2;
@@ -183,16 +183,21 @@ do{
                 studentA = student4Del2;
                 studentB = student5Del2;
         }
-        if(studentA>studentB)
-
+        if(studentA < studentB)
+            tempKar = studentA
+            studentA = studentB
+            studentB = tempKar
+            
         //bruk case
       
         //if statement
         //bytt om info med =
         //mellom lagre info
-    }
-  
-}while(Eshhh === false)
+    
+}
+}while(Eshhh == false)
+ 
+ printOut(student1Del2.karakter.toString())
     //print ut alt
 // student1 = {karakter, nr}
 printOut(newLine);
