@@ -155,51 +155,61 @@ for (let i = 0; i < studentProsent.length; i++) {
     
 
 //Finn ut meir om arrays, do loop og for loop inni
-let student1Del2 = {karakter:Math.ceil(Math.random()*236), nr:1}
-let student2Del2 = {karakter:Math.ceil(Math.random()*236), nr:2}
-let student3Del2 = {karakter:Math.ceil(Math.random()*236), nr:3}
-let student4Del2 = {karakter:Math.ceil(Math.random()*236), nr:4}
-let student5Del2 = {karakter:Math.ceil(Math.random()*236), nr:5}
+let student1Del2 = { karakter: Math.ceil(Math.random() * 236), nr: 1 };
+let student2Del2 = { karakter: Math.ceil(Math.random() * 236), nr: 2 };
+let student3Del2 = { karakter: Math.ceil(Math.random() * 236), nr: 3 };
+let student4Del2 = { karakter: Math.ceil(Math.random() * 236), nr: 4 };
+let student5Del2 = { karakter: Math.ceil(Math.random() * 236), nr: 5 };
 
 
-do{
-    let Eshhh = true
-    for(let i =0;i<4;i++){
-        let tempPoeng;
-        let tempKar;
-        let studentA, studentB;
-        //switch
-        switch(student1Del2.nr, student2Del2.nr){
-            case 1:
-                studentA = student1Del2;
-                studentB = student2Del2;
-            case 2:
-                studentA = student2Del2;
-                studentB = student3Del2;
-            case 3:
-                studentA = student3Del2;
-                studentB = student4Del2;
-            case 4:
-                studentA = student4Del2;
-                studentB = student5Del2;
-        }
-        if(studentA < studentB)
-            tempKar = studentA
-            studentA = studentB
-            studentB = tempKar
-            
-        //bruk case
-      
-        //if statement
-        //bytt om info med =
-        //mellom lagre info
-    
-}
-}while(Eshhh == false)
+let Eshhh = true;
+do {
+   Eshhh = false;
  
- printOut(student1Del2.karakter.toString())
-    //print ut alt
-// student1 = {karakter, nr}
+  for (let i = 1; i < 5; i++) {
+    let tempPoeng;
+    let tempNr;
+    let studentA, studentB;
+ 
+    switch (i) {
+      case 1:
+        studentA = student1Del2;
+        studentB = student2Del2;
+        break;
+      case 2:
+        studentA = student2Del2;
+        studentB = student3Del2;
+        break;
+      case 3:
+        studentA = student3Del2;
+        studentB = student4Del2;
+        break;
+      case 4:
+        studentA = student4Del2;
+        studentB = student5Del2;
+        break;
+    }
+    if (studentA.karakter < studentB.karakter) {
+   
+        tempPoeng = studentA.karakter;
+        tempNr = studentA.nr;
+        studentA.karakter = studentB.karakter;
+        studentA.nr = studentB.nr;
+        studentB.karakter = tempPoeng;
+        studentB.nr = tempNr;
+    
+      Eshhh = true;
+    }
+  }
+} while (Eshhh);
+
+
+printOut("Kandidat " + student1Del2.nr + ": fikk " + student1Del2.karakter + " poeng.")
+printOut("Kandidat " + student2Del2.nr + ": fikk " + student2Del2.karakter + " poeng.")
+printOut("Kandidat " + student3Del2.nr + ": fikk " + student3Del2.karakter + " poeng.")
+printOut("Kandidat " + student4Del2.nr + ": fikk " + student4Del2.karakter + " poeng.")
+printOut("Kandidat " + student5Del2.nr + ": fikk " + student5Del2.karakter + " poeng.")
+
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
