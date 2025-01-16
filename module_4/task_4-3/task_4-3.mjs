@@ -69,7 +69,7 @@ const txtTask2Word = document.getElementById("txtTask2Word");
 txtTask2Word.addEventListener("keypress", txtTask2WordKeyPress);
 let task2Words = [];
 const txtTask2Output = document.getElementById("txtTask2Output");
-//TODO: Lage callback-funksjonen txtTask2WordKeyPress
+
 function txtTask2WordKeyPress(aEvent) 
 {
   const key = aEvent.key;
@@ -92,17 +92,14 @@ const cmbTask3CheckAnswer = document.getElementById("cmbTask3CheckAnswer");
 cmbTask3CheckAnswer.addEventListener("click", cmbTask3CheckAnswerClick);
 const txtTask3Output = document.getElementById("txtTask3Output");
 
-let text = ""; //Tømmer teksten, gjør klar til ny utskrift.
+let text = ""; 
 function cmbTask3CheckAnswerClick() 
 {
   const chkTask3 = document.getElementsByName("chkTask3");
   for(let i = 0; i < chkTask3.length; i++) 
     {
-    /*
-    TODO: Sjekk om checkboxen er huket av. og skriv ut resultatet i txtTask3Output
-          Skriv også ut hvilken checkbox som er huket av, og hva verdien er.
-          Det er også mulig å skrivet hele teksten til hver checkbox i txtTask3Output.
-    */
+ 
+    
    const checkBox = chkTask3[i];
    if(checkBox.checked){
     const value = checkBox.value;
@@ -118,7 +115,7 @@ function cmbTask3CheckAnswerClick()
 
   }
   txtTask3Output.innerHTML = text;
-  text = ""; //Rømmer teksten, klargjør til neste klikk!
+  text = "";
 }
 //--- Part 4 ----------------------------------------------------------------------------------------------
 /* Put your code below here!*/
