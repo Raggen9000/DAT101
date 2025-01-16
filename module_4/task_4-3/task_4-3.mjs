@@ -46,16 +46,83 @@ const MovieGenre = [
 ];
 
 //--- Part 1 ----------------------------------------------------------------------------------------------
-/* Put your code below here!*/
+
+const cmbTask1Calculate = document.getElementById("cmbTask1Calculate");
+cmbTask1Calculate.addEventListener("click", cmbTask1CalculateClick);
+function cmbTask1CalculateClick() 
+{
+
+ const txtRectHeight = document.getElementById("txtRectHeight");
+  const txtRectWidth = document.getElementById("txtRectWidth");
+  const height = Number(txtRectHeight.value);
+  const width = Number(txtRectWidth.value);
+ 
+  const perimeter = (height + width + height + width);
+  const area = (height * width);
+  const txtTask1Output = document.getElementById("txtTask1Output");
+  txtTask1Output.innerHTML = "Omkrets: " + perimeter + "&nbsp; Areal: " + area;
+}
 
 //--- Part 2 ----------------------------------------------------------------------------------------------
-/* Put your code below here!*/
+
+const txtTask2Word = document.getElementById("txtTask2Word");
+txtTask2Word.addEventListener("keypress", txtTask2WordKeyPress);
+let task2Words = [];
+const txtTask2Output = document.getElementById("txtTask2Output");
+//TODO: Lage callback-funksjonen txtTask2WordKeyPress
+function txtTask2WordKeyPress(aEvent) 
+{
+  const key = aEvent.key;
+  switch(key) 
+  {
+    case "Enter":
+      const words = txtTask2Word.value.split(" ");
+      txtTask2Word.value = "";
+      task2Words = task2Words.concat(words);
+      txtTask2Output.innerHTML = "Number of words: " + task2Words.length + "<br>" + task2Words.join(" ");
+      console.log(task2Words);
+      break;
+  }
+}
 
 //--- Part 3 ----------------------------------------------------------------------------------------------
 /* Put your code below here!*/
 
+const cmbTask3CheckAnswer = document.getElementById("cmbTask3CheckAnswer");
+cmbTask3CheckAnswer.addEventListener("click", cmbTask3CheckAnswerClick);
+const txtTask3Output = document.getElementById("txtTask3Output");
+
+let text = ""; //Tømmer teksten, gjør klar til ny utskrift.
+function cmbTask3CheckAnswerClick() 
+{
+  const chkTask3 = document.getElementsByName("chkTask3");
+  for(let i = 0; i < chkTask3.length; i++) 
+    {
+    /*
+    TODO: Sjekk om checkboxen er huket av. og skriv ut resultatet i txtTask3Output
+          Skriv også ut hvilken checkbox som er huket av, og hva verdien er.
+          Det er også mulig å skrivet hele teksten til hver checkbox i txtTask3Output.
+    */
+   const checkBox = chkTask3[i];
+   if(checkBox.checked){
+    const value = checkBox.value;
+    if(value === "4")
+    {
+      text += "Du har valgt nummer " + value + ". Dette kan du ikke mene!!???<br />"
+
+    }else
+    {
+      text += "Du har valgt nummer " + value + ".<br />"
+    }
+   }
+
+  }
+  txtTask3Output.innerHTML = text;
+  text = ""; //Rømmer teksten, klargjør til neste klikk!
+}
 //--- Part 4 ----------------------------------------------------------------------------------------------
 /* Put your code below here!*/
+
 
 //--- Part 5 ----------------------------------------------------------------------------------------------
 /* Put your code below here!*/
