@@ -25,7 +25,16 @@ export class SMenu {
     this.#spPlay = new libSprite.TSpriteButton(aSpriteCanvas, SheetData.Play,pos)
     this.#spPlay.animateSpeed = 10;
 
+     this.#spPlay.onClick = () => {
+    if (GameProps.gameStatus === EGameStatus.Idle) {
+      console.log("Play clicked");
+      GameProps.gameStatus = EGameStatus.Playing;
+    }
+  }
+
+    this.#spResume = new libSprite.TSpriteButton(aSpriteCanvas, SheetData.Resume,pos)
     this.#posScore = new lib2d.TPosition(75, 50);
+    
   }
 
   draw(){
@@ -33,15 +42,15 @@ export class SMenu {
       case EGameStatus.Idle:
         this.#spPlay.draw();
         break;
-      case EGameStatus.Playing:
-        this.#spcvs.drawText(GameProps.score.toString(), this.#posScore);
       case EGameStatus.Pause:
-        this.#spcvs.drawText(GameProps.score.toString(), this.#posScore);
-        this.#spResume.draw();
+         this.#spResume.draw();
+         break;
     }
   }
 
-  
+
+
+
 }
 
 

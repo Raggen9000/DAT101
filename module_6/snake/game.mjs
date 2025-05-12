@@ -104,6 +104,8 @@ function drawGame() {
 
 function updateGame() {
   // Update game logic here
+  // if playing and space is pressed then gamestatus = EGameStatus.Pause
+  // if 
   switch (GameProps.gameStatus) {
     case EGameStatus.Playing:
       if (!GameProps.snake.update()) {
@@ -111,7 +113,7 @@ function updateGame() {
         console.log("Game over!");
       }
       break;
-     
+      
   }
 }
 
@@ -145,6 +147,16 @@ function onKeyDown(event) {
     case " ":
       console.log("Space key pressed!");
       /* Pause the game logic here */
+      if (GameProps.gameStatus === EGameStatus.Playing) {
+        console.log("Paused");
+        GameProps.gameStatus = EGameStatus.Pause;
+      } else if (GameProps.gameStatus === EGameStatus.Pause) {
+        console.log("Resumed");
+        GameProps.gameStatus = EGameStatus.Playing;
+      } else if (GameProps.gameStatus === EGameStatus.Idle) {
+        console.log("Game started");
+        GameProps.gameStatus = EGameStatus.Playing;
+      }
       
       break;
     default:
@@ -154,11 +166,13 @@ function onKeyDown(event) {
 
 
 
+
 //-----------------------------------------------------------------------------------------
 //----------- main -----------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 
 spcvs.loadSpriteSheet("./Media/spriteSheet.png", loadGame);
 document.addEventListener("keydown", onKeyDown);
+
 
 
