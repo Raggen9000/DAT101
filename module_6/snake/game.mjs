@@ -34,7 +34,7 @@ export const SheetData = {
 
 export const GameProps = {
   gameBoard: null,
-  gameStatus: EGameStatus.Idle,
+  gameStatus: EGameStatus.Playing,
   snake: null,
   bait: null,
   score: 0,
@@ -70,7 +70,7 @@ function loadGame() {
   cvs.width = GameBoardSize.Cols * SheetData.Head.width;
   cvs.height = GameBoardSize.Rows * SheetData.Head.height;
 
-  GameProps.gameStatus = EGameStatus.Idle; // change game status to Idle
+  GameProps.gameStatus = EGameStatus.Playing; // change game status to Idle
 
   /* Create the game menu here */ 
   GameProps.menu = new SMenu(spcvs);
@@ -89,6 +89,15 @@ function drawGame() {
   spcvs.clearCanvas();
   GameProps.menu.draw();
   
+  
+  switch (GameProps.gameStatus) {
+    case EGameStatus.Playing:
+    case EGameStatus.Pause:
+      GameProps.bait.draw();
+      GameProps.snake.draw();
+      break;
+  }
+
   // Request the next frame
   requestAnimationFrame(drawGame);
 }
@@ -102,9 +111,7 @@ function updateGame() {
         console.log("Game over!");
       }
       break;
-      case EGameStatus.Idle:
-       //GameProps.menu.updateIdle();
-       break;
+     
   }
 }
 
@@ -113,6 +120,8 @@ function increaseGameSpeed() {
   /* Increase game speed logic here */
   console.log("Increase game speed!");
 }
+
+
 
 
 //-----------------------------------------------------------------------------------------
@@ -142,9 +151,14 @@ function onKeyDown(event) {
       console.log(`Key pressed: "${event.key}"`);
   }
 }
+
+
+
 //-----------------------------------------------------------------------------------------
 //----------- main -----------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 
 spcvs.loadSpriteSheet("./Media/spriteSheet.png", loadGame);
 document.addEventListener("keydown", onKeyDown);
+
+

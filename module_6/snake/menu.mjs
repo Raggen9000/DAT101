@@ -35,11 +35,19 @@ export class SMenu {
         break;
       case EGameStatus.Playing:
         this.#spcvs.drawText(GameProps.score.toString(), this.#posScore);
+      case EGameStatus.Pause:
+        this.#spcvs.drawText(GameProps.score.toString(), this.#posScore);
+        this.#spResume.draw();
     }
   }
 
-
+  
 }
+
+
+
+  
+
 
 /* Use this file to create the menu for the snake game. */
 
