@@ -38,6 +38,7 @@ export const GameProps = {
   snake: null,
   bait: null,
   score: 0,
+  baitEaten: 0,
   menu: null,
 };
 
@@ -50,12 +51,18 @@ export function newGame() {
   GameProps.snake = new TSnake(spcvs, new TBoardCell(5, 5)); // Initialize snake with a starting position
   GameProps.bait = new TBait(spcvs); // Initialize bait with a starting position
   gameSpeed = 4; // Reset game speed
+  GameProps.score = 0;
+  GameProps.baitEaten = 0;
 }
 
 export function bateIsEaten() {
 
   console.log("Bait eaten!");
+  GameProps.score++;
+  GameProps.baitEaten++;
+  console.log(GameProps.baitEaten.toString())
   /* Logic to increase the snake size and score when bait is eaten */
+  GameProps.bait.update()
 
   increaseGameSpeed(); // Increase game speed
 }
@@ -70,13 +77,13 @@ function loadGame() {
   cvs.width = GameBoardSize.Cols * SheetData.Head.width;
   cvs.height = GameBoardSize.Rows * SheetData.Head.height;
 
-  GameProps.gameStatus = EGameStatus.Playing; // change game status to Idle
+  GameProps.gameStatus = EGameStatus.Idle; // change game status to Idle
 
   /* Create the game menu here */ 
   GameProps.menu = new SMenu(spcvs);
 
 
-  newGame(); // Call this function from the menu to start a new game, remove this line when the menu is ready
+  //newGame(); // Call this function from the menu to start a new game, remove this line when the menu is ready
 
   requestAnimationFrame(drawGame);
   console.log("Game canvas is rendering!");
@@ -87,25 +94,24 @@ function loadGame() {
 function drawGame() {
   // Clear the canvas
   spcvs.clearCanvas();
-  GameProps.menu.draw();
-  
-  
+
   switch (GameProps.gameStatus) {
     case EGameStatus.Playing:
     case EGameStatus.Pause:
       GameProps.bait.draw();
       GameProps.snake.draw();
       break;
+      case EGameStatus.GameOver:
+      GameProps.snake.draw();
+      GameProps.bait.draw();
   }
-
+   GameProps.menu.draw();
   // Request the next frame
   requestAnimationFrame(drawGame);
 }
 
 function updateGame() {
   // Update game logic here
-  // if playing and space is pressed then gamestatus = EGameStatus.Pause
-  // if 
   switch (GameProps.gameStatus) {
     case EGameStatus.Playing:
       if (!GameProps.snake.update()) {
@@ -120,7 +126,9 @@ function updateGame() {
 
 function increaseGameSpeed() {
   /* Increase game speed logic here */
-  console.log("Increase game speed!");
+  gameSpeed++;
+  console.log("Increase game speed!", gameSpeed.toString());
+  
 }
 
 
