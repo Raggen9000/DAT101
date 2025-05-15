@@ -15,6 +15,7 @@ export class SMenu {
   #spRetry
   #spcvs
   #posScore
+  #posBestScore
 
   constructor(aSpriteCanvas){
     this.#spcvs = aSpriteCanvas;
@@ -47,8 +48,21 @@ export class SMenu {
     this.#posBaitEaten = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x: 50, y: 50});
     this.#posBaitEaten.digits = null;
     this.#posBaitEaten.alpha = 0.7;
-     
 
+    this.#posScore = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x:50, y: 150});
+    this.#posScore.digits = null;
+    this.#posScore.alpha = 0.7;
+
+    this.#posBestScore = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x:620, y:255})
+    //bruk Epsritejustifytype til å sentrere tallene riktig.
+    this.#posBestScore.digits = null;
+    this.#posBestScore.alpha = 1;
+
+
+
+
+
+     
   
 //------------------------------------------------------------------------------------------
 //----------- Click events -------------------------------------------------------------------
@@ -58,7 +72,9 @@ export class SMenu {
   this.#spPlay.onClick = () => {
     if (GameProps.gameStatus === EGameStatus.Idle) {
       console.log("Play clicked");
+      newGame();
       GameProps.gameStatus = EGameStatus.Playing;
+      
     } 
   };
 
@@ -76,6 +92,13 @@ export class SMenu {
       GameProps.gameStatus = EGameStatus.Playing;
     } 
   }
+
+   this.#spResume.onClick = () => {
+    if (GameProps.gameStatus === EGameStatus.Pause) {
+      console.log("Play clicked");
+      GameProps.gameStatus = EGameStatus.Playing;
+    } 
+  }
 }
 
 //Her tegnes Spritene i de ulike spill statusene
@@ -83,19 +106,27 @@ export class SMenu {
     switch(GameProps.gameStatus){
       case EGameStatus.Idle:
         this.#spPlay.draw();
-         newGame();
+
         break;
       case EGameStatus.Pause:
-         this.#spResume.draw();
-         this.#posBaitEaten.draw();
+        this.#spResume.draw();
+        this.#posBaitEaten.draw();
+        this.#posScore.draw();
          break;
       case EGameStatus.GameOver:
+        this.#posBestScore.value = GameProps.score;
         this.#spGameOver.draw();
         this.#spHome.draw();
         this.#spRetry.draw();
+        this.#posBestScore.draw();
+      
+        
+
         break;
       case EGameStatus.Playing:
         this.#posBaitEaten.value = GameProps.baitEaten;
+        this.#posScore.value = GameProps.score;
+        this.#posScore.draw();
         this.#posBaitEaten.draw();
         break;
     }

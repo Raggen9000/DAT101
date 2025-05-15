@@ -37,7 +37,7 @@ export const GameProps = {
   gameStatus: EGameStatus.Playing,
   snake: null,
   bait: null,
-  score: 0,
+  score: 100,
   baitEaten: 0,
   menu: null,
 };
@@ -51,14 +51,13 @@ export function newGame() {
   GameProps.snake = new TSnake(spcvs, new TBoardCell(5, 5)); // Initialize snake with a starting position
   GameProps.bait = new TBait(spcvs); // Initialize bait with a starting position
   gameSpeed = 4; // Reset game speed
-  GameProps.score = 0;
-  GameProps.baitEaten = 0;
+  GameProps.score = 0; // Reset score
+  GameProps.baitEaten = 0; // Reset baitEaten
 }
 
 export function bateIsEaten() {
 
   console.log("Bait eaten!");
-  GameProps.score++;
   GameProps.baitEaten++;
   console.log(GameProps.baitEaten.toString())
   /* Logic to increase the snake size and score when bait is eaten */
@@ -158,13 +157,7 @@ function onKeyDown(event) {
       if (GameProps.gameStatus === EGameStatus.Playing) {
         console.log("Paused");
         GameProps.gameStatus = EGameStatus.Pause;
-      } else if (GameProps.gameStatus === EGameStatus.Pause) {
-        console.log("Resumed");
-        GameProps.gameStatus = EGameStatus.Playing;
-      } else if (GameProps.gameStatus === EGameStatus.Idle) {
-        console.log("Game started");
-        GameProps.gameStatus = EGameStatus.Playing;
-      }
+      } 
       
       break;
     default:
