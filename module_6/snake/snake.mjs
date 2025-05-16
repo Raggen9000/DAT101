@@ -79,6 +79,10 @@ class TSnakeHead extends TSnakePart {
       bateIsEaten();
     }else{
       /* Decrease the score if the snake head is not on a bait cell */
+      //funk her
+      GameProps.score = Math.max(0, GameProps.score - 1);
+      console.log("Score decreased to:", GameProps.score);
+        
     }
     boardCellInfo.infoType = EBoardCellInfoType.Snake; // Set the cell to Snake
     return true; // No collision, continue

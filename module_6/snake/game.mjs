@@ -40,6 +40,7 @@ export const GameProps = {
   score: 100,
   baitEaten: 0,
   menu: null,
+  finalScore: null,
 };
 
 //------------------------------------------------------------------------------------------
@@ -51,19 +52,27 @@ export function newGame() {
   GameProps.snake = new TSnake(spcvs, new TBoardCell(5, 5)); // Initialize snake with a starting position
   GameProps.bait = new TBait(spcvs); // Initialize bait with a starting position
   gameSpeed = 4; // Reset game speed
-  GameProps.score = 0; // Reset score
+  GameProps.score = 50; // Reset score
   GameProps.baitEaten = 0; // Reset baitEaten
+  GameProps.finalScore = 0;
+  
 }
+
+let baitSpawnTime = null;
 
 export function bateIsEaten() {
 
   console.log("Bait eaten!");
   GameProps.baitEaten++;
   console.log(GameProps.baitEaten.toString())
+  
   /* Logic to increase the snake size and score when bait is eaten */
   GameProps.bait.update()
 
   increaseGameSpeed(); // Increase game speed
+  clearInterval(baitSpawnTime)
+  GameProps.finalScore += GameProps.score;
+  GameProps.score = 50;
 }
 
 
@@ -123,10 +132,15 @@ function updateGame() {
 }
 
 
+
 function increaseGameSpeed() {
   /* Increase game speed logic here */
   gameSpeed++;
   console.log("Increase game speed!", gameSpeed.toString());
+  
+}
+
+function scoreResults(){
   
 }
 
