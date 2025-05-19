@@ -46,11 +46,11 @@ export class SMenu {
     this.#spRetry = new libSprite.TSpriteButton(aSpriteCanvas, SheetData.Retry, pos)
 
 
-    this.#posBaitEaten = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x: 50, y: 50});
+    this.#posBaitEaten = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x: 10, y: 10});
     this.#posBaitEaten.digits = null;
     this.#posBaitEaten.alpha = 0.7;
 
-    this.#posScore = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x:50, y: 150});
+    this.#posScore = new libSprite.TSpriteNumber(aSpriteCanvas, SheetData.Number, {x:10, y: 110});
     this.#posScore.digits = null;
     this.#posScore.alpha = 0.7;
 
@@ -59,6 +59,15 @@ export class SMenu {
     this.#posBestScore.digits = null;
     this.#posBestScore.alpha = 1;
     this.#posBestScore.justify = libSprite_v2.ESpriteNumberJustifyType.Center;
+
+/*
+  Due to the specific placement of the sprites, repositioning the canvas is problematic.
+  Moving the canvas can cause misalignment between the buttons and the visual elements,
+  making the button sprites unclickable. This issue could have been avoided by positioning
+  the buttons dynamically — for example, by calculating their placement relative to the canvas.
+  That way, changes to the canvas size or position wouldn’t break button functionality.
+*/
+
 
 
 
@@ -115,11 +124,14 @@ export class SMenu {
         this.#posScore.draw();
          break;
       case EGameStatus.GameOver:
+        this.#posScore.draw();
+        this.#posBaitEaten.draw()
         this.#posBestScore.value = GameProps.finalScore;
         this.#spGameOver.draw();
         this.#spHome.draw();
         this.#spRetry.draw();
         this.#posBestScore.draw();
+
       
         break;
       case EGameStatus.Playing:

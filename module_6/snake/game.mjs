@@ -40,7 +40,8 @@ export const GameProps = {
   score: 100,
   baitEaten: 0,
   menu: null,
-  finalScore: null,
+  finalScore: 0,
+  growth: false, // Add this flag to control snake growth
 };
 
 //------------------------------------------------------------------------------------------
@@ -48,31 +49,47 @@ export const GameProps = {
 //------------------------------------------------------------------------------------------
 
 export function newGame() {
+  // Stop any existing update interval
+  if (hndUpdateGame) {
+    clearInterval(hndUpdateGame);
+  }
+
   GameProps.gameBoard = new TGameBoard();
   GameProps.snake = new TSnake(spcvs, new TBoardCell(5, 5)); // Initialize snake with a starting position
   GameProps.bait = new TBait(spcvs); // Initialize bait with a starting position
   gameSpeed = 4; // Reset game speed
   GameProps.score = 50; // Reset score
   GameProps.baitEaten = 0; // Reset baitEaten
-  GameProps.finalScore = 0;
+  GameProps.finalScore = 0; // Reset finalScore
+  GameProps.growth = false; // Reset growth flag
   
+  // Setup game update interval
+  hndUpdateGame = setInterval(updateGame, 1000 / gameSpeed);
 }
 
-let baitSpawnTime = null;
+
 
 export function bateIsEaten() {
-
   console.log("Bait eaten!");
-  GameProps.baitEaten++;
-  console.log(GameProps.baitEaten.toString())
   
-  /* Logic to increase the snake size and score when bait is eaten */
-  GameProps.bait.update()
-
-  increaseGameSpeed(); // Increase game speed
-  clearInterval(baitSpawnTime)
+  // Increment counters
+  GameProps.baitEaten++;
   GameProps.finalScore += GameProps.score;
   GameProps.score = 50;
+  
+  console.log("Bait eaten: " + GameProps.baitEaten.toString() + ", Score: " + GameProps.finalScore.toString());
+  
+  // Set flag to grow snake on next update to avoid collision issues
+  GameProps.growth = true;
+  
+  // Move bait to new position
+  GameProps.bait.update();
+  
+  // Only increase speed every 3 baits to avoid making game too fast
+  if (GameProps.baitEaten % 3 === 0) {
+    increaseGameSpeed();
+  }
+
 }
 
 
@@ -90,13 +107,8 @@ function loadGame() {
   /* Create the game menu here */ 
   GameProps.menu = new SMenu(spcvs);
 
-
-  //newGame(); // Call this function from the menu to start a new game, remove this line when the menu is ready
-
   requestAnimationFrame(drawGame);
   console.log("Game canvas is rendering!");
-  hndUpdateGame = setInterval(updateGame, 1000 / gameSpeed); // Update game every 1000ms / gameSpeed
-  console.log("Game canvas is updating!");
 }
 
 function drawGame() {
@@ -109,11 +121,13 @@ function drawGame() {
       GameProps.bait.draw();
       GameProps.snake.draw();
       break;
-      case EGameStatus.GameOver:
+    case EGameStatus.GameOver:
       GameProps.snake.draw();
       GameProps.bait.draw();
   }
-   GameProps.menu.draw();
+  
+  GameProps.menu.draw();
+  
   // Request the next frame
   requestAnimationFrame(drawGame);
 }
@@ -125,62 +139,64 @@ function updateGame() {
       if (!GameProps.snake.update()) {
         GameProps.gameStatus = EGameStatus.GameOver;
         console.log("Game over!");
+      } else if (GameProps.growth) {
+        // Grow snake after its position has been updated
+        GameProps.snake.grow();
+        GameProps.growth = false;
       }
       break;
-      
   }
 }
 
-
-
 function increaseGameSpeed() {
-  /* Increase game speed logic here */
-  gameSpeed++;
-  console.log("Increase game speed!", gameSpeed.toString());
-  
+  // Cap the maximum speed to avoid the game becoming unplayable
+  if (gameSpeed < 10) {
+    gameSpeed++;
+    console.log("Increase game speed to: " + gameSpeed.toString());
+    
+    // Clear and reset the update interval with new speed
+    clearInterval(hndUpdateGame);
+    hndUpdateGame = setInterval(updateGame, 1000 / gameSpeed);
+  }
 }
-
-function scoreResults(){
-  
-}
-
-
-
 
 //-----------------------------------------------------------------------------------------
 //----------- Event handlers --------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 
 function onKeyDown(event) {
-  switch (event.key) {
-    case "ArrowUp":
-      GameProps.snake.setDirection(EDirection.Up);
-      break;
-    case "ArrowDown":
-      GameProps.snake.setDirection(EDirection.Down);
-      break;
-    case "ArrowLeft":
-      GameProps.snake.setDirection(EDirection.Left);
-      break;
-    case "ArrowRight":
-      GameProps.snake.setDirection(EDirection.Right);
-      break;
-    case " ":
-      console.log("Space key pressed!");
-      /* Pause the game logic here */
-      if (GameProps.gameStatus === EGameStatus.Playing) {
-        console.log("Paused");
-        GameProps.gameStatus = EGameStatus.Pause;
-      } 
-      
-      break;
-    default:
-      console.log(`Key pressed: "${event.key}"`);
+  // Only process key events if the game is in Playing or Pause state
+  if (GameProps.gameStatus === EGameStatus.Playing || 
+      GameProps.gameStatus === EGameStatus.Pause) {
+    
+    switch (event.key) {
+      case "ArrowUp":
+        GameProps.snake.setDirection(EDirection.Up);
+        break;
+      case "ArrowDown":
+        GameProps.snake.setDirection(EDirection.Down);
+        break;
+      case "ArrowLeft":
+        GameProps.snake.setDirection(EDirection.Left);
+        break;
+      case "ArrowRight":
+        GameProps.snake.setDirection(EDirection.Right);
+        break;
+      case " ":
+        console.log("Space key pressed!");
+        if (GameProps.gameStatus === EGameStatus.Playing) {
+          console.log("Paused");
+          GameProps.gameStatus = EGameStatus.Pause;
+        } else if (GameProps.gameStatus === EGameStatus.Pause) {
+          console.log("Resumed");
+          GameProps.gameStatus = EGameStatus.Playing;
+        }
+        break;
+      default:
+        console.log(`Key pressed: "${event.key}"`);
+    }
   }
 }
-
-
-
 
 //-----------------------------------------------------------------------------------------
 //----------- main -----------------------------------------------------------------------
@@ -188,6 +204,4 @@ function onKeyDown(event) {
 
 spcvs.loadSpriteSheet("./Media/spriteSheet.png", loadGame);
 document.addEventListener("keydown", onKeyDown);
-
-
 
